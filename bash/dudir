@@ -1,0 +1,13 @@
+#!/bin/bash
+dudir()
+{
+dirlist=($(ls -F .|grep /))
+for list in ${dirlist[@]}
+do 
+    echo $lish
+    du -sh $list
+done
+}
+
+dudir
+
