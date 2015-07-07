@@ -1,5 +1,10 @@
 #!/bin/bash
 
+function backup
+{
+    echo backup s
+}
+
 function install
 {
     echo "Install to loacal home..."
@@ -9,14 +14,10 @@ function install
     echo "[successful]"
 }
 
-function backup
-{
-    echo backup s
-}
 
 if [ -z $1 ]
 then
-    install ../temp
+    install $HOME
 else
-    echo set
+    install $1
 fi
