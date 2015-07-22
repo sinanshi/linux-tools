@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# check distribution
+if [ -c /etc/redhat-release ]; then
+    DISTRIBUTION=$(cat /etc/redhat-release)
+fi
+
+if [ -e /etc/os-release ]; then
+    DISTRIBUTION=$(cat /etc/os-release |grep -i pretty_name|cut -d'=' -f 2)
+fi
+
+
+# check edian
+endian_digit=$(echo -n I | od -to2 | head -n1 | cut -f2 -d" " | cut -c6 )
+if [ $endian_digit == 1 ]; then
+    endian="Little Endian"
+else
+    endian="Big Endian"
+fi
+
+# check CPU information
+cpu=($(cat /proc/cpuinfo |grep -i 'model name'|sort -u))
+cpu=${cpu[@]:3}
+
+
+echo -e "
+\033[0;35m+++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++
++       \033[0;37mHostname \033[0;35m= \033[1;32m`hostname`
+\033[0;35m+   \033[0;37mDistribution \033[0;35m= \033[1;32m$DISTRIBUTION - `uname -s`
+\033[0;35m+         \033[0;37mKernel \033[0;35m= \033[1;32m`uname -r` `uname -m`
+\033[0;35m+            \033[0;37mCPU \033[0;35m= \033[1;32m$cpu
+\033[0;35m+     \033[0;37mByte Order \033[0;35m= \033[1;32m$endian
+\033[0;35m+         \033[0;37mMemory \033[0;35m= \033[1;32m`cat /proc/meminfo | grep MemTotal | awk {'print $2'}` kB
+\033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++\033[0m"
