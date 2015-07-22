@@ -27,8 +27,7 @@ cpu=${cpu[@]:3}
 disk=($(df -h ~/|grep /))
 disk_usage=($(echo ${disk[@]}|grep -o [0-9.]*[GT]))
 disk_perc=$(echo ${disk[@]}|grep -o [0-9.]*%)
-echo -e "
-\033[0;35m+++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++
+echo -e "\033[0;35m+++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++
 +       \033[0;37mHostname \033[0;35m= \033[1;32m`hostname`
 \033[0;35m+   \033[0;37mDistribution \033[0;35m= \033[1;32m$DISTRIBUTION - `uname -s`
 \033[0;35m+         \033[0;37mKernel \033[0;35m= \033[1;32m`uname -r` `uname -m`
