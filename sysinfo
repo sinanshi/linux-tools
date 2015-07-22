@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # check distribution
-if [ -c /etc/redhat-release ]; then
+if [ -e /etc/redhat-release ]; then
     DISTRIBUTION=$(cat /etc/redhat-release)
 fi
 
@@ -23,6 +23,10 @@ cpu=($(cat /proc/cpuinfo |grep -i 'model name'|sort -u))
 cpu=${cpu[@]:3}
 
 
+# check file system
+disk=($(df -h ~/|grep /))
+disk_usage=($(echo ${disk[@]}|grep -o [0-9.]*[GT]))
+disk_perc=$(echo ${disk[@]}|grep -o [0-9.]*%)
 echo -e "
 \033[0;35m+++++++++++++++++: \033[0;37mSystem Data\033[0;35m :+++++++++++++++++++
 +       \033[0;37mHostname \033[0;35m= \033[1;32m`hostname`
@@ -31,4 +35,5 @@ echo -e "
 \033[0;35m+            \033[0;37mCPU \033[0;35m= \033[1;32m$cpu
 \033[0;35m+     \033[0;37mByte Order \033[0;35m= \033[1;32m$endian
 \033[0;35m+         \033[0;37mMemory \033[0;35m= \033[1;32m`cat /proc/meminfo | grep MemTotal | awk {'print $2'}` kB
+\033[0;35m+  \033[0;37musage of home \033[0;35m= \033[1;32m${disk_usage[1]}/${disk_usage[0]} ($disk_perc)
 \033[0;35m+++++++++++++++++++++++++++++++++++++++++++++++++++\033[0m"
