@@ -1,0 +1,39 @@
+\documentclass[12pt,openany]{article} 
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{CJKutf8}%中文
+%----------------------------------------
+%     header
+%----------------------------------------
+\usepackage{fancyhdr}
+\newcommand{\Author}{Sinan Shi} 
+\newcommand{\Title}{Title}
+\newcommand{\Keywords}{Subtitle}
+\title{\Title}
+\author{\Author} % Your name
+\date{\normalsize\today} % Today's date or a custom date
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+%----------------------------------------------------------------------------------------
+%	PRE-CONTENT THESIS PAGES
+%----------------------------------------------------------------------------------------
+%\pagestyle{empty}\include{FrontBackMatters/Titlepage} % Main title page
+%\cleardoublepage\include{FrontBackMatters/Dedication} % Dedication page
+\pagenumbering{roman} %Start counting pages by roman numbering
+%\include{FrontBackMatters/Abstract} % Abstract page
+%\include{FrontBackMatters/Publication} % Publications from the thesis page
+%\include{FrontBackMatters/Acknowledgments} % Acknowledgements page
+%\include{FrontBackMatters/Contents} % Contents, list of figures/tables/listings and acronyms
+\maketitle
+\tableofcontents
+%----------------------------------------------------------------------------------------
+%	PRE-CONTENT THESIS PAGES
+%----------------------------------------------------------------------------------------
+\pagenumbering{arabic} % Arabic page numbering for thesis content (1, 2, 3, etc)
+\setcounter{page}{1} % Uncomment to manually start the page counter at an arbitrary value (for example if you wish to count the pre-content pages in the page count)
+\pagestyle{fancy}
+
+\input{text/s1.tex}
+\newpage
+\end{CJK*}
+\end{document}

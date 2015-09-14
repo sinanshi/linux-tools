@@ -1,0 +1,30 @@
+#!/bin/bash
+# a simple way to call redmine
+
+address='http://localhost:3000' 
+
+function open_redmine
+{
+    echo $1
+    if [ -z $1 ] 
+    then
+        open $address
+    else
+        open $address/$1
+    fi
+}
+
+
+
+case $1 in 
+    load )
+         sudo launchctl load -w /System/Library/LaunchDaemons/redmine.plist;;
+    unload )
+         sudo launchctl unload -w /System/Library/LaunchDaemons/redmine.plist;;
+    * )
+        open_redmine $1
+esac
+
+
+
+

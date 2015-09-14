@@ -7,17 +7,27 @@ function backup
 
 function install
 {
-    echo "Install to loacal home..."
     sourcedir=$(dirname ${BASH_SOURCE[0]})
-    echo $(ls $sourcedir)
-    rsync -av $sourcedir $1 --exclude=install_home.sh
+    rsync -a $sourcedir $1 --exclude=install_home.sh
     echo "[successful]"
 }
 
 
-if [ -z $1 ]
+if [ $# -gt 0 ]
 then
-    install $HOME
+    if [ $1 = "-h" ]
+    then
+        echo Usage:
+        echo "-h                  print this help text"
+        echo "local install       ./install_home"
+        echo "remote install      ./install_home uname@host.ucl.ac.uk"
+        exit 0
+    else
+        host_name=$(ssh $1 'echo $MYID')
+        echo -n "Install remote host home ($host_name)......"
+        install $1:
+    fi
 else
-    install $1
+    echo -n "Install local home ($MYID)......"
+    install $HOME
 fi
