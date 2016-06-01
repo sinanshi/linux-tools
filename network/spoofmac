@@ -41,6 +41,3 @@ esac
 
 ifconfig $1 $macpar down
 ifconfig $1 $macpar up
-  
-
-
