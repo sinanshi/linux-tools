@@ -1,0 +1,46 @@
+#!/bin/bash
+
+macpar="ether"
+file_origin="/usr/local/etc/.origin_ifconfig_output.txt"
+
+# input argument check
+if [ "$(whoami)" != "root" ]
+then
+  echo "Run it with root!"
+  exit
+fi
+
+if [ "$#" -ne 2 ]; then
+  echo "Randomly assign a faked mac address to a give interface."
+  echo "Usage: sudo spoofmac [interface] [update/restore]"
+  exit
+fi
+
+# if run the first time then record ifconfig.
+if [ -f file_origin ]
+then
+    ifconfig > file_origin
+fi
+
+origin_mac=$(awk '/en0/,0' $file_origin | sed -n -e "s/^.*$macpar //p"|sed -n '1p')
+old_mac=$(ifconfig en0 ether | sed -n -e 's/.*ether //p')
+random_mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
+
+
+case "$2" in
+  "restore") 
+    ifconfig $1 $macpar $origin_mac
+    echo "Restore mac address to hardware mac address: ${origin_mac}.";;
+
+  "update") 
+    ifconfig $1 $macpar $random_mac
+    echo "spoof: $old_mac ==> $random_mac (hardware: $origin_mac).";;
+
+  *) echo "Argument 2 should be either [restore/update], but I get $2."
+esac
+
+ifconfig $1 $macpar down
+ifconfig $1 $macpar up
+  
+
+
