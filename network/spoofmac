@@ -31,7 +31,7 @@ then
 fi
 
 origin_mac=$(awk "/$1/,0" $file_origin | sed -n -e "s/^.*$mackeyword //p"|sed -n '1p')
-old_mac=$($ifconfig en0 ether | sed -n -e 's/.*ether //p')
+old_mac=$($ifconfig $1 | sed -n -e "s/.*$mackeyword //p")
 random_mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
 
 if [ `uname` == "Linux" ]; then
