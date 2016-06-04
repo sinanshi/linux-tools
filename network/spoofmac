@@ -34,9 +34,6 @@ origin_mac=$(awk "/$1/,0" $file_origin | sed -n -e "s/^.*$mackeyword //p"|sed -n
 old_mac=$($ifconfig $1 | sed -n -e "s/.*$mackeyword //p")
 random_mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
 
-if [ `uname` == "Linux" ]; then
-  $ifconfig $1 down
-fi
 
 
 case "$2" in
@@ -51,4 +48,5 @@ case "$2" in
   *) echo "Argument 2 should be either [restore/update], but I get $2."
 esac
 
+$ifconfig $1 down
 $ifconfig $1 up
